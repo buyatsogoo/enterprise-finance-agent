@@ -1,24 +1,44 @@
-# 📊 Enterprise Finance Agent: Q4 Variance & Forecasting Engine
+# 🤖 Multi-Agent AI Orchestration Suite
 
-## Overview
-This project demonstrates a production-ready, hierarchical Multi-Agent AI system designed to automate complex corporate finance-planning and forecasting. 
+A collection of production-ready, agentic AI systems built with **LangGraph** and **Llama-3.3-70b**. This suite demonstrates how to bridge the gap between Large Language Models and deterministic enterprise data (SQL & Vector RAG).
 
-Rather than relying on a single, hallucination-prone LLM, this architecture utilizes **LangGraph** to deploy a Supervisor AI that manages specialized worker tools. It seamlessly merges structured ERP data with unstructured qualitative documents to synthesize executive-level variance reports.
+---
 
-## System Architecture
+## 🏗️ Core Architecture
+All agents in this suite follow the **Supervisor-Worker Pattern**:
+- **The Supervisor:** Routes tasks and enforces logic sequentiality.
+- **The Worker Tools:** Custom Python functions for SQL extraction, RAG parsing, and mathematical computation.
+- **State Management:** LangGraph for resilient, stateful conversations.
 
-* **The Supervisor (Controller):** Receives natural language queries and dynamically routes tasks to the appropriate worker node, enforcing strict sequential execution to prevent data hallucination.
-* **ERP Extractor (SQL Tool):** Executes deterministic queries against a local SQLite database containing historical Actuals and forecasted Targets.
-* **Context Reader (RAG Tool):** Parses unstructured operational memos (e.g., supply chain updates) to identify the qualitative drivers behind budget variances.
-* **The Quant (Math Engine):** A dedicated Python tool that strictly calculates variance percentages based *only* on the extracted database numbers.
-* **Frontend:** A clean, user-friendly Streamlit chat interface.
+---
 
-## Observability
-The system is fully integrated with **LangSmith** for enterprise LLMOps tracing, ensuring token efficiency, mathematical accuracy, and complete auditability of the AI's reasoning path.
+## 📂 Featured Agents
 
-## How to Run Locally
-1. Clone this repository.
-2. Install dependencies: `pip install -r requirements.txt`
-3. Set your API keys in your environment (Groq API, LangSmith API).
-4. Run the database setup: `python project4_database.py`
-5. Launch the UI: `streamlit run project4_app.py`
+### 1. CSR-Impact Engine (Oyu Tolgoi Grant Evaluator)
+**Goal:** Automates the vetting process for corporate social responsibility proposals against specific grant mandates.
+- **Database:** `program_impact.db` (SROI & Budget metrics).
+- **RAG Context:** `ot_csr_guidelines.txt` (Strategic pillars & cost limits).
+- **Key Logic:** Calculates Cost-Per-Child and SROI to verify Tier 2 eligibility ($20/child threshold).
+- **Run:** `python project5_supervisor.py`
+
+### 2. Enterprise Finance Agent (Q4 Variance Engine)
+**Goal:** Analyzes corporate financial performance by merging ERP data with qualitative operational memos.
+- **Database:** `corporate_finance.db` (Actuals vs. Targets).
+- **RAG Context:** Operational variance memos.
+- **Key Logic:** Sequential extraction of SQL "Actuals" vs. "Targets" to calculate variance % without hallucination.
+- **Run:** `python project4_supervisor.py`
+
+---
+
+## 🛠️ Technical Stack
+- **Orchestration:** LangGraph / LangChain
+- **Models:** Llama-3.3-70b (via Groq)
+- **Database:** SQLite
+- **Deployment:** Streamlit Community Cloud
+- **Observability:** LangSmith (for LLM tracing and debugging)
+
+## 🚀 Getting Started
+1. Clone the repo.
+2. Setup environment variables in `.env` (refer to `.env.example`).
+3. Run the desired database script (`project4_database.py` or `project5_database.py`).
+4. Launch the interface: `streamlit run project5_app.py`
