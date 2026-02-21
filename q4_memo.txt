@@ -1,0 +1,7 @@
+MEMO: Q4 Supply Chain Update
+To: Finance Department
+From: Operations
+Date: Jan 5, 2026
+Subject: Q4 Operating Expense Anomalies
+
+Please note that Q4 Operating Expenses (OPEX) were significantly higher than targeted. Due to the severe winter storms in November, our primary shipping partner halted operations. We were forced to use expedited air freight for all international deliveries, which drove our shipping costs up by $600,000 above the forecasted budget. Furthermore, revenue was impacted as $700,000 worth of inventory was delayed and could not be recognized in Q4.
