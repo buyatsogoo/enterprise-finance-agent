@@ -37,14 +37,24 @@ if prompt := st.chat_input(f"Ask the {agent_choice}..."):
         st.markdown(prompt)
 
     with st.chat_message("assistant"):
-        with st.spinner("Agent is thinking..."):
-            config = {"configurable": {"thread_id": f"{agent_choice}_sesssion"}}
+        config = {"configurable": {"thread_id": f"{agent_choice}_sesssion"}}
+        with st.status("Agent is analyzing request...", expanded=True) as status:
+            for event in agent_app.stream({"messages": [HumanMessage(content=prompt)]}, config=config):
+                for node_name, node_data in event.items():
+                    if node_name == "supervisor":
+                        messages = node_data.get("messages", [])
+                        if messages and hasattr(messages[-1], 'tool_calls') and messages[-1].tool_calls:
+                            tool_name = messages[-1].tool_calls[0]['name']
+                            st.write(f"**Supervisor:** Routing task to '{tool_name}'...")
+                    elif node_name == "tools":
+                        messages = node_data.get("messages", [])
+                        if messages:
+                            tool_name = messages[-1].name
+                            st.write(f"**Tool:** '{tool_name}' completed successfully.")        
+            status.update(label="Analysis Complete", state="complete", expanded=False)
 
-            result = agent_app.invoke(
-                {"messages": [HumanMessage(content=prompt)]},
-                config=config
-            )
+        final_state = agent_app.get_state(config)
+        response_text = final_state.values["messages"][-1].content
+        st.markdown(response_text)
+        st.session_state.messages.append({"role": "assistant", "content": response_text})
 
-            response_text = result["messages"][-1].content
-            st.markdown(response_text)
-            st.session_state.messages.append({"role": "assistant", "content": response_text})
