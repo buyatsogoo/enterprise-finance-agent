@@ -9,7 +9,7 @@ st.set_page_config(page_title="Agentic AI Suite", page_icon="🤖", layout="wide
 st.sidebar.title("Agent Settings")
 agent_choice = st.sidebar.selectbox(
     "Choose your Agentic Workflow:",
-    ("Oyu Tolgoi CSR Evaluator", "Enterprise Finance Analyst")
+    ["Oyu Tolgoi CSR Evaluator", "Enterprise Finance Analyst"]
 )
 
 st.sidebar.divider()
